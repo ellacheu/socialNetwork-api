@@ -20,8 +20,18 @@ const reactionSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-    // getter method to format timestamp on query
   },
+},
+{
+    toJSON:{
+    virtuals: true,
+},
+    id: false,
+}
+);
+
+thoughtSchema.virtual('formattedTimestamp').get(function() {
+    return this.timestamp.toLocaleString();
 });
 
 module.exports = reactionSchema;

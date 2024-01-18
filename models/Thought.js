@@ -13,7 +13,6 @@ const thoughtSchema = new Schema({
   createAt: {
     type: Date,
     default: Date.now,
-    //getter method to format timestamp on query
   },
 
   username: {
@@ -22,7 +21,17 @@ const thoughtSchema = new Schema({
   },
 
   reactions: [Reaction],
+},
+{
+    toJSON:{
+    virtuals: true,
+    },
+    id: false,
+}
+);
 
+thoughtSchema.virtual('formattedTimestamp').get(function() {
+    return this.timestamp.toLocaleString();
 });
 
 const Thought = model('thought', thoughtSchema);
