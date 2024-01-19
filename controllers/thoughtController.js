@@ -103,11 +103,49 @@ module.exports = {
     }
   },
 
-  // create reaction 
-  
+  // create reaction
+  async createReaction(req, res) {
+    try {
+      const thought = await Thought.findOneAndUpdate(
+        { _id: req.params.thoughtId },
+        { $addToSet: { reactions: req.body } },
+        { new: true }
+      );
+
+      if (!thoughts) {
+        return res.status(404)({
+          message: "No thought found with that Id",
+        });
+      }
+
+      res.json(thought);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+    }
+  },
+
+  // delete a reaction
+  async deleteReaction(req, res) {
+    try {
+      const thought = await Thought.findOneAndUpdate(
+        { _id: req.params.thoughtId },
+        { $pull: { reactions: { _id: req.params.reactionId } } }
+      );
+
+      if (!thoughts) {
+        return res.status(404).json({
+          message: "No thought found with that Id",
+        });
+      }
+
+      res.json({ message: "Reaction has been successfully created!" });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+    }
+  },
 };
-
-
 
 
 // /api/thoughts/:thoughtId/reactions\
