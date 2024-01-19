@@ -19,10 +19,30 @@ const userSchema = new Schema({
         message: 'Invalid email address format'
     },
   },
+  thoughts: [
+    {
+      type: Schema.type.ObjectId,
+      ref: 'Thought',
+    },
+  ],
+  
+  friends: [
+    {
+      type: Schema.type.ObjectId,
+      ref: 'User',
+    },
+  ]
+},
+{
+  toJSON: {
+    virtuals: true,
+  },
+  id: false,
+}
+);
 
-  thoughts: [Thought],
-
-  friends: [User],
+userSchema.virtual('friendCount').get(function(){
+  return this.friends.length;
 });
 
 const User = model('user', userSchema);
