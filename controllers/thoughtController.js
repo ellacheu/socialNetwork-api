@@ -12,7 +12,7 @@ module.exports = {
   },
 
   //find single thought
-  async getAllThoughts(req, res) {
+  async getSingleThought(req, res) {
     try {
       const thoughts = await Thought.findOne({ _id: req.params.thoughtsId });
 
