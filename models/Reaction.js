@@ -31,7 +31,7 @@ const reactionSchema = new Schema({
 }
 );
 
-thoughtSchema.virtual('formattedTimestamp').get(function() {
+reactionSchema.virtual('formattedTimestamp').get(function() {
     return this.timestamp.toLocaleString();
 });
 
