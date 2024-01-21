@@ -13,6 +13,7 @@ const thoughtSchema = new Schema({
   createAt: {
     type: Date,
     default: Date.now,
+    get: (timestamp) => dateFormat(timestamp),
   },
 
   username: {
@@ -29,6 +30,11 @@ const thoughtSchema = new Schema({
     id: false,
 }
 );
+
+// virtual for reactions
+thoughtSchema.virtual('reactionCount').get(function() {
+  return this.reactions.length;
+})
 
 thoughtSchema.virtual('formattedTimestamp').get(function() {
     return this.timestamp.toLocaleString();

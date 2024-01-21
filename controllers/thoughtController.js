@@ -15,6 +15,8 @@ module.exports = {
   async getSingleThought(req, res) {
     try {
       const thoughts = await Thought.findOne({ _id: req.params.thoughtsId });
+      const reactionCount = thought.reactionCount;
+      console.log(`Number of reactions: ${reactionCount}`);
 
       if (!thoughts) {
         return res.json(404).json({
@@ -106,7 +108,7 @@ module.exports = {
   // create reaction
   async createReaction(req, res) {
     try {
-      const thought = await Thought.findOneAndUpdate(
+      const thoughts = await Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },
         { $addToSet: { reactions: req.body } },
         { new: true }
@@ -128,7 +130,7 @@ module.exports = {
   // delete a reaction
   async deleteReaction(req, res) {
     try {
-      const thought = await Thought.findOneAndUpdate(
+      const thoughts = await Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },
         { $pull: { reactions: { _id: req.params.reactionId } } }
       );

@@ -19,4 +19,11 @@ router
     .put(updateUser)
     .delete(deleteUser);
 
-// router for friend list
+// /api/users/:userId/friends/:friendId
+router 
+    .route('./:userId/friends/:friendId')
+    .post(addFriend)
+    .delete(deleteFriend);
+
+
+module.exports = router;s
