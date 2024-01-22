@@ -7,9 +7,15 @@ connection.on('error', (err) => err);
 connection.once('open', async() => {
     console.log('connected');
 
-    await User.deleteMany({});
+    let userCheck = await connection.db.listCollections({ name: 'users' }).toArray();
+    if (userCheck.length) {
+        await connection.dropCollection('users');
+    }
 
-    await Thought.deleteMany({});
+    let thougthCheck = await connection.db.listCollections({ name: 'thoughts' }).toArray();
+    if (thougthCheck.length) {
+        await connection.dropCollection('thoughts');
+    }
 
     const users = [];
 
@@ -27,12 +33,13 @@ connection.once('open', async() => {
             username,
             email,
             thoughts: [thought.thoughtText],
+            _id: thought._id,
         });
     }
 
     await User.collection.insertMany(users);
 
-    console.table(user);
+    console.table(users);
     console.info('Seeding Successful!');
     process.exit(0);
 
