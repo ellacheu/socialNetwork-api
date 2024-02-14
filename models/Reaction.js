@@ -32,7 +32,7 @@ const reactionSchema = new Schema({
 );
 
 reactionSchema.virtual('formattedTimestamp').get(function() {
-    return this.timestamp.toLocaleString();
+    return this.timestamp;
 });
 
 module.exports = reactionSchema;

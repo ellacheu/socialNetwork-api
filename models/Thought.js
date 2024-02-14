@@ -2,6 +2,7 @@ const { Schema, model } = require('mongoose');
 const User = require('./User');
 const reactionSchema = require('./Reaction');
 
+
 const thoughtSchema = new Schema({
   thoughtText: {
     type: String,
@@ -31,14 +32,12 @@ const thoughtSchema = new Schema({
 }
 );
 
+
 // virtual for reactions
 thoughtSchema.virtual('reactionCount').get(function() {
   return this.reactions.length;
-})
-
-thoughtSchema.virtual('formattedTimestamp').get(function() {
-    return this.timestamp.toLocaleString();
 });
+
 
 const Thought = model('thought', thoughtSchema);
 

@@ -5,7 +5,7 @@ module.exports = {
   async getThoughts(req, res) {
     try {
       const thoughts = await Thought.find();
-      res.json(thoughts);
+      res.send(thoughts);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -14,17 +14,17 @@ module.exports = {
   //find single thought
   async getSingleThought(req, res) {
     try {
-      const thoughts = await Thought.findOne({ _id: req.params.thoughtsId });
+      const thought = await Thought.findOne({ _id: req.params.thoughtId });
       const reactionCount = thought.reactionCount;
       console.log(`Number of reactions: ${reactionCount}`);
 
-      if (!thoughts) {
+      if (!thought) {
         return res.json(404).json({
           message: "No thought found with that Id",
         });
       }
 
-      res.json(thoughts);
+      res.json(thought);
     } catch (err) {
       res.status(500).json(err);
     }
