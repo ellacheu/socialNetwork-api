@@ -57,7 +57,7 @@ module.exports = {
     try {
       const thoughts = await Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },
-        { $addToSet: req.body },
+        req.body,
         { new: true }
       );
 
@@ -120,10 +120,10 @@ module.exports = {
         });
       }
 
-      res.json(thought);
+      res.json(thoughts);
     } catch (err) {
       console.log(err);
-      res.status(500).json(err);
+      res.status(500).json(err.message);
     }
   },
 
@@ -132,7 +132,7 @@ module.exports = {
     try {
       const thoughts = await Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },
-        { $pull: { reactions: { _id: req.params.reactionId } } }
+        { $pull: { reactions: { _id: req.body.reactionId } } }
       );
 
       if (!thoughts) {
